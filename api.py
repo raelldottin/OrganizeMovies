@@ -14,5 +14,5 @@ class MovieList(object):
             "with_rt_ratings": with_rt_ratings,
         }
 
-    def list_movies(self) -> dict:
+    def list_movies(self) -> session.requests.Response:
         return session.query(url="https://yts.mx", endpoint="/api/v2/list_movies.json", params=self.endpoint_params)
