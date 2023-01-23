@@ -17,8 +17,6 @@ def get(url: str, endpoint: str, params: dict=dict()):
         else:
             response = requests.get(url=url, headers=headers)
         response.raise_for_status()
-        print(response.content)
-        print(response.json())
         return response
     except requests.exceptions.HTTPError as err:
         raise SystemExit(err)
@@ -30,7 +28,6 @@ def post(url: str, endpoint: str):
     try:
         response = requests.post(url=url, headers=headers)
         response.raise_for_status()
-        print(response.json())
         return response
     except requests.exceptions.HTTPError as err:
         raise SystemExit(err)
