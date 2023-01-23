@@ -45,7 +45,6 @@ def get_download_links() -> None:
 get_indexes()
 for movie_index in movies_indexes:
     if '?' in movie_index:
-        print(movie_index.split('?')) 
         endpoint, page = movie_index.split('?')
         params[page.split('=')[0]] = page.split('=')[1]
     get_download_links()
