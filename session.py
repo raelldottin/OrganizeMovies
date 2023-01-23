@@ -19,7 +19,8 @@ def get(url: str, endpoint: str, params: dict=dict()):
         response.raise_for_status()
         return response
     except requests.exceptions.HTTPError as err:
-        raise SystemExit(err)
+        print(err)
+        return requests.Response
 
 
 def post(url: str, endpoint: str):
@@ -30,7 +31,8 @@ def post(url: str, endpoint: str):
         response.raise_for_status()
         return response
     except requests.exceptions.HTTPError as err:
-        raise SystemExit(err)
+        print(err)
+        return requests.Response
 
 def query(url: str, endpoint: str, params: dict):
     '''Performs a HTTP query request'''
