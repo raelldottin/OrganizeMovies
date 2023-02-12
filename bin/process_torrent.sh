@@ -55,7 +55,7 @@ fi
 if [[ -d "$torrentpath" ]]  && ls $torrentpath/*.mkv > /dev/null 2>&1 || ls $torrentpath/*.avi  > /dev/null 2>&1 || ls $torrentpath/*.mp4 > /dev/null 2>&1; then
     print_log "Processing $torrentpath"
     sleep 60
-    print_log "Starting Transfer" && output=$(scp -r "$torrentpath" rdottin@192.168.1.188:/zroot/movies/completed-movies) && print_log "$output" && output=$(rm -vfr "$torrentpath") && print_log "$output" && print_log "Transfer Complete"
+    print_log "Starting Transfer" && scp -r "$torrentpath" rdottin@192.168.1.188:/zroot/movies/completed-movies && rm -fr "$torrentpath" && print_log "Transfer Complete"
     return_code="$?"
     if [ "$return_code" -ne  "0" ]; then
       print_log "Return code is $return_code"
