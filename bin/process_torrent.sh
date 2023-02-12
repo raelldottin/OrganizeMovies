@@ -58,8 +58,7 @@ if [[ -d "$torrentpath" ]]  && ls $torrentpath/*.mkv > /dev/null 2>&1 || ls $tor
     print_log "Starting Transfer" && scp -r "$torrentpath" rdottin@192.168.1.188:/zroot/movies/completed-movies && rm -fr "$torrentpath" && print_log "Transfer Complete"
     return_code="$?"
     if [ "$return_code" -ne  "0" ]; then
-      print_log "Return code is $return_code"
-      print_log "An error occurred."
+      print_log "An error occurred and the return code is $return_code"
     fi
 else
   print_log "Unable to find video file in $torrentpath."
