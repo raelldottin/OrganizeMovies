@@ -52,7 +52,7 @@ else
   exit 1
 fi
 
-if [[ -d "$torrentpath" ]]  && ls $torrentpath/*.mkv || ls $torrentpath/*.avi || ls $torrentpath/*.mp4; then
+if [[ -d "$torrentpath" ]]  && ls $torrentpath/*.mkv > /dev/null 2>&1 || ls $torrentpath/*.avi  > /dev/null 2>&1 || ls $torrentpath/*.mp4 > /dev/null 2>&1; then
     print_log "Processing $torrentpath"
     sleep 60
     print_log "Starting Transfer" && output=$(scp -r "$torrentpath" rdottin@192.168.1.188:/zroot/movies/completed-movies) && print_log "$output" && output=$(rm -vfr "$torrentpath") && print_log "$output" && print_log "Transfer Complete"
@@ -61,7 +61,7 @@ if [[ -d "$torrentpath" ]]  && ls $torrentpath/*.mkv || ls $torrentpath/*.avi ||
       print_log "Return code is $return_code"
       print_log "An error occurred."
     fi
-eLse
+else
   print_log "Unable to find video file in $torrentpath."
 fi
 
