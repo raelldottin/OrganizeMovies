@@ -6,7 +6,7 @@ import random
 
 
 class YTS(object):
-    endpoint = "/browse-movies/0/2160p/all/8/year/0/en"
+    endpoint = "/browse-movies/0/2160p/all/7/year/0/en"
     list_of_movies = list()
     movies_indexes = [
         endpoint,
