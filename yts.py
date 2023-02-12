@@ -7,13 +7,19 @@ import api
 
 
 class YTS(object):
-    endpoint = "/browse-movies/0/2160p/all/8/year/0/en"
-    list_of_movies = list()
+    endpoint = "/browse-movies/0/2160p/all/7/year/0/en"
+    list_of_movies = []
     movies_indexes = [
         endpoint,
     ]
-    params = dict()
+    params = {}
     download_link = str()
+    flags = object()
+
+    def __init__(self, flags):
+        self.flags = flags
+        for item in self.flags:
+            print(item)
 
     def get_indexes(self) -> None:
         yts_mx = api.NewMovieEndpoint()
@@ -55,14 +61,16 @@ class YTS(object):
                             keyword in link["title"]
                         ):
                             self.download_link = link["href"]
-                            torrent_file = (
-                                f"{self.download_link.split('/')[-1:][0]}.torrent"
-                            )
-                            os.popen(
-                                f"curl -fsSL {self.download_link} -o {torrent_file}"
-                            )
-                            time.sleep(random.uniform(5.0, 10.0))
-                            print(f"curl -fsSL {self.download_link} -o {torrent_file}")
+                            if flags.download_flag:
+                                torrent_file = (
+                                    f"{self.download_link.split('/')[-1:][0]}.torrent"
+                                )
+                                os.popen(
+                                    f"curl -fsSL {self.download_link} -o {torrent_file}"
+                                )
+                                time.sleep(random.uniform(5.0, 10.0))
+                            elif flags.print_only_flag:
+                                print(self.download_link)
                             break
 
     def run(self):

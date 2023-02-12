@@ -81,12 +81,8 @@ def main():
     with log.LogFile(args.log_filename):
         if args.print_only == args.download_torrents:
             raise SystemExit("Please only use --print-only or --download-torrents.")
-
-        flags = OptionFlags(
-            args.print_only, args.download_torrents, args.log_filename, args.query
-        )
-        raise SystemExit(flags)
-        yts_mx = yts.YTS()
+        flags = ProgramFlags(args.print_only, args.download_torrents, args.log_filename)
+        yts_mx = yts.YTS(flags=flags)
         yts_mx.run()
 
 
