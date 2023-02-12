@@ -1,8 +1,9 @@
-import bs4
-import api
+'''YTS module for downloading movies'''
 import os
 import time
 import random
+import bs4
+import api
 
 
 class YTS(object):
