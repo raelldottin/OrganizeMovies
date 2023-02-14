@@ -4,41 +4,12 @@ import log
 import yts
 
 
-class OptionFlags(object):
-    """Class with program flags"""
-
-    print_only: bool
-    download_torrents: bool
-    log_filename: str
-    query_string: str
-
-    print_only = True
-    download_torrents = False
-    log_filename = ""
-    query_string = ""
-
-    def __init__(
-        self,
-        print_only: bool,
-        download_torrents: bool,
-        log_filename: str,
-        query_string: str,
-    ):
-        self.print_only = print_only
-        self.download_torrents = download_torrents
-        self.log_filename = log_filename
-        self.query_string = query_string
-
-    def __repr__(self):
-        message = "\n".join(
-            [
-                f"{self.print_only=}",
-                f"{self.download_torrents=}",
-                f"{self.log_filename=}",
-                f"{self.query_string=}",
-            ]
-        )
-        return print(message)
+flags = {
+    "print_only": False,
+    "download_torrents": True,
+    "log_filename": "",
+    "query_string": "",
+}
 
 
 def main():
@@ -81,7 +52,9 @@ def main():
     with log.LogFile(args.log_filename):
         if args.print_only == args.download_torrents:
             raise SystemExit("Please only use --print-only or --download-torrents.")
-        flags = ProgramFlags(args.print_only, args.download_torrents, args.log_filename)
+        flags["print_only"] = args.print_only
+        flags["download_torrents"] = args.download_torrents
+        flags["log_filename"] = args.log_filename
         yts_mx = yts.YTS(flags=flags)
         yts_mx.run()
 

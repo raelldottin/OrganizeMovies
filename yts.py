@@ -1,4 +1,4 @@
-'''YTS module for downloading movies'''
+"""YTS module for downloading movies"""
 import os
 import time
 import random
@@ -6,20 +6,37 @@ import bs4
 import api
 
 
+"""
+print_only ---> False
+download_torrents ---> True
+log_filename ---> test.log
+query_string --->
+"""
+
+
 class YTS(object):
+    search_term = "0" 
+    quality = "2160p"
+    genre = "all"
+    rating = "7"
+    order_by = "year"
+    year = "0"
+    language = "en"
+
+    endpoint = "".
     endpoint = "/browse-movies/0/2160p/all/7/year/0/en"
     list_of_movies = []
     movies_indexes = [
         endpoint,
     ]
     params = {}
-    download_link = str()
-    flags = object()
+    download_link = ""
+    flags = {}
+    query_string = ""
 
-    def __init__(self, flags):
+    def __init__(self, flags, query_string=""):
         self.flags = flags
-        for item in self.flags:
-            print(item)
+        self.query_string = query_string
 
     def get_indexes(self) -> None:
         yts_mx = api.NewMovieEndpoint()
@@ -61,7 +78,7 @@ class YTS(object):
                             keyword in link["title"]
                         ):
                             self.download_link = link["href"]
-                            if flags.download_flag:
+                            if flags["download_flag"]:
                                 torrent_file = (
                                     f"{self.download_link.split('/')[-1:][0]}.torrent"
                                 )
