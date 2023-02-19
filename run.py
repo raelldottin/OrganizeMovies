@@ -4,11 +4,12 @@ import log
 import yts
 
 
-flags = {
+ProgramFlags = {
     "print_only": False,
     "download_torrents": True,
     "log_filename": "",
     "query_string": "",
+    "verbose": False,
 }
 
 
@@ -44,18 +45,28 @@ def main():
         "-q",
         "--query",
         action="store",
-        dest="query",
+        dest="query_string",
         default="",
         help="Query string for YTS",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        dest="verbose",
+        default=False,
+        help="Display debugging messages",
     )
     args = parser.parse_args()
     with log.LogFile(args.log_filename):
         if args.print_only == args.download_torrents:
             raise SystemExit("Please only use --print-only or --download-torrents.")
-        flags["print_only"] = args.print_only
-        flags["download_torrents"] = args.download_torrents
-        flags["log_filename"] = args.log_filename
-        yts_mx = yts.YTS(flags=flags)
+        ProgramFlags["print_only"] = args.print_only
+        ProgramFlags["download_torrents"] = args.download_torrents
+        ProgramFlags["log_filename"] = args.log_filename
+        ProgramFlags["query_string"] = args.query_string
+        ProgramFlags["verbose"] = args.verbose
+        yts_mx = yts.YTS(flags=ProgramFlags)
         yts_mx.run()
 
 

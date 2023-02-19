@@ -36,7 +36,8 @@ class YTS(object):
 
     def __init__(self, flags, query_string=""):
         self.flags = flags
-        self.query_string = query_string
+        for key, value in self.flags.items():
+            self.print_verbose(key, "->", value)
 
     def get_indexes(self) -> None:
         yts_mx = api.NewMovieEndpoint()
@@ -50,8 +51,9 @@ class YTS(object):
 
     def get_download_links(self) -> None:
         yts_mx = api.NewMovieEndpoint()
-
-        print(f"{self.endpoint=}\t{self.params=}")
+        self.print_verbose(
+            f"Gathering movie links from {self.endpoint=}\t{self.params=}"
+        )
         if self.params:
             html = yts_mx.list_movies(endpoint=self.endpoint, params=self.params)
         else:
@@ -78,17 +80,21 @@ class YTS(object):
                             keyword in link["title"]
                         ):
                             self.download_link = link["href"]
-                            if flags["download_flag"]:
-                                torrent_file = (
-                                    f"{self.download_link.split('/')[-1:][0]}.torrent"
-                                )
-                                os.popen(
-                                    f"curl -fsSL {self.download_link} -o {torrent_file}"
-                                )
-                                time.sleep(random.uniform(5.0, 10.0))
-                            elif flags.print_only_flag:
-                                print(self.download_link)
+                            self.process_movie_link()
                             break
+
+    def process_movie_link(self):
+        self.print_verbose(f"Processing download link {self.download_link}")
+        if self.flags["download_torrents"]:
+            torrent_file = f"{self.download_link.split('/')[-1:][0]}.torrent"
+            os.popen(f"curl -fsSL {self.download_link} -o {torrent_file}")
+            time.sleep(random.uniform(5.0, 10.0))
+        elif self.flags["print_only"] or self.flags["verbose"]:
+            print(self.download_link)
+
+    def print_verbose(self, *message):
+        if self.flags["verbose"]:
+            print(message)
 
     def run(self):
         self.get_indexes()
